@@ -2,6 +2,7 @@ package pokeapi
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 )
@@ -22,6 +23,18 @@ func (c *Client) LocationCalls(pageUrl *string) (PokemonLocations, error) {
 		url = *pageUrl
 	}
 
+	data, ok := c.pokeCache.Get(url)
+	if ok {
+		pLocations := PokemonLocations{}
+		err := json.Unmarshal(data, &pLocations)
+		if err != nil {
+			return PokemonLocations{}, err
+		}
+		fmt.Println("GOT FROM CACHE")
+
+		return pLocations, nil
+	}
+
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return PokemonLocations{}, err
@@ -33,10 +46,12 @@ func (c *Client) LocationCalls(pageUrl *string) (PokemonLocations, error) {
 	}
 	defer res.Body.Close()
 
-	data, err := io.ReadAll(res.Body)
+	data, err = io.ReadAll(res.Body)
 	if err != nil {
 		return PokemonLocations{}, err
 	}
+
+	c.pokeCache.Add(url, data)
 
 	pLocations := PokemonLocations{}
 	err = json.Unmarshal(data, &pLocations)

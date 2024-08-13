@@ -26,7 +26,7 @@ func NewCache(interval time.Duration) Cache {
 	return c
 }
 
-func (c Cache) Add(key string, val []byte) {
+func (c *Cache) Add(key string, val []byte) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
 	c.cache[key] = cacheEntry{
@@ -35,7 +35,7 @@ func (c Cache) Add(key string, val []byte) {
 	}
 }
 
-func (c Cache) Get(key string) ([]byte, bool) {
+func (c *Cache) Get(key string) ([]byte, bool) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
 	entry, ok := c.cache[key]
@@ -45,7 +45,7 @@ func (c Cache) Get(key string) ([]byte, bool) {
 	return entry.val, true
 }
 
-func (c Cache) readLoop() {
+func (c *Cache) readLoop() {
 	ticker := time.NewTicker(c.cleanupInterval)
 	defer ticker.Stop()
 	for range ticker.C {
