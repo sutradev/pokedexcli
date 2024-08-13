@@ -9,6 +9,7 @@ import (
 
 func startcli() {
 	scanner := bufio.NewScanner(os.Stdin)
+	commandNames := makeCommands()
 	for {
 		fmt.Print("pokidex > ")
 		scanner.Scan()
@@ -16,8 +17,6 @@ func startcli() {
 		if input == "" {
 			continue
 		}
-
-		commandNames := makeCommands()
 
 		command, ok := commandNames[input]
 		if !ok {
