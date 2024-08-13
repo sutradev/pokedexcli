@@ -3,14 +3,10 @@ package main
 type clicommands struct {
 	name        string
 	description string
-	callback    func() error
+	callback    func(*config) error
 }
 
 func makeCommands() map[string]clicommands {
-	pokemonUrls := &PokemonUrls{
-		Next: new(string),
-		Prev: new(string),
-	}
 	return map[string]clicommands{
 		"help": {
 			name:        "help",
@@ -24,13 +20,13 @@ func makeCommands() map[string]clicommands {
 		},
 		"map": {
 			name:        "map",
-			description: "Shows next 20 pokemon locations",
-			callback:    pokemonUrls.next20,
+			description: "Next page of 20 pokemon locations",
+			callback:    next20,
 		},
 		"mapb": {
 			name:        "mapb",
-			description: "Goes back to the previous 20 pokemon locations",
-			callback:    pokemonUrls.prev20,
+			description: "Previous 20 pokemon locations",
+			callback:    prev20,
 		},
 	}
 }
