@@ -11,7 +11,7 @@ func startcli(cfg *config) {
 	scanner := bufio.NewScanner(os.Stdin)
 	commandNames := makeCommands()
 	for {
-		fmt.Print("pokidex > ")
+		fmt.Print("pokedex > ")
 		scanner.Scan()
 		input := strings.ToLower(scanner.Text())
 		if input == "" {
