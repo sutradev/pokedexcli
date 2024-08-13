@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func startcli() {
+func startcli(cfg *config) {
 	scanner := bufio.NewScanner(os.Stdin)
 	commandNames := makeCommands()
 	for {
@@ -23,8 +23,8 @@ func startcli() {
 			fmt.Println("Command Not Found, Use 'help' For Command List")
 			continue
 		}
-		if err := command.callback(); err != nil {
-			fmt.Printf("Error when executing command: %v. Error: %v \n", input, err)
+		if err := command.callback(cfg); err != nil {
+			fmt.Printf("Error when executing command: '%v' Error: %v \n", input, err)
 		}
 	}
 }

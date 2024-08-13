@@ -1,5 +1,21 @@
 package main
 
+import (
+	"time"
+
+	pokeapi "github.com/sutradev/pokidexcli/internal"
+)
+
+type config struct {
+	pokeapiClient           pokeapi.Client
+	nextPokemonLocationsURL *string
+	prevPokemonLocationsURL *string
+}
+
 func main() {
-	startcli()
+	pokeClient := pokeapi.NewClient(5 * time.Second)
+	cfg := &config{
+		pokeapiClient: pokeClient,
+	}
+	startcli(cfg)
 }
