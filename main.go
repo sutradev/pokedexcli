@@ -3,7 +3,7 @@ package main
 import (
 	"time"
 
-	pokeapi "github.com/sutradev/pokidexcli/internal"
+	pokeapi "github.com/sutradev/pokidexcli/internal/pokeapi"
 )
 
 type config struct {
