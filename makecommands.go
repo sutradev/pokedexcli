@@ -29,17 +29,17 @@ func makeCommands() map[string]clicommands {
 			callback:    prev20,
 		},
 		"explore": {
-			name:        "explore <location>",
+			name:        "explore {location}",
 			description: "Explore a specific location to view Pokemon in that area!",
 			callback:    explore,
 		},
 		"catch": {
-			name:        "catch <pokemon>",
+			name:        "catch {pokemon}",
 			description: "Throw a pokeball and see if you can catch a pokemon!",
 			callback:    catch,
 		},
 		"inspect": {
-			name:        "inspect <pokemon>",
+			name:        "inspect {pokemon}",
 			description: "Inspect a pokemon you have caught to learn more!",
 			callback:    inspect,
 		},
