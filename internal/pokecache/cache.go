@@ -22,7 +22,7 @@ func NewCache(interval time.Duration) Cache {
 		mu:              &sync.Mutex{},
 		cleanupInterval: interval,
 	}
-	go c.readLoop() // Start the readLoop in a separate goroutine
+	go c.readLoop()
 	return c
 }
 
