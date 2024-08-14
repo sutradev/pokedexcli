@@ -156,19 +156,53 @@ func catchResults(difficulty int) bool {
 	return false
 }
 
-func (cfg *config) inspect(pokemon []string) error {
+func inspect(cfg *config, pokemon []string) error {
 	if len(pokemon) <= 1 {
 		return errors.New("Please name a pokemon you are trying to catch!")
 	}
 	if len(pokemon) > 2 {
 		return errors.New("You can only inspect one pokemon at a time!")
 	}
+	if _, ok := cfg.pokemonSeen[pokemon[1]]; !ok {
+		return errors.New("You haven't seen this pokemon yet!")
+	}
+
 	caughtPokemon, ok := cfg.pokemon[pokemon[1]]
 	if !ok {
-		return errors.New("You haven't seen this pokemon yet, explore more areas!")
+		return errors.New("You haven't tried to catch this pokemon!")
 	}
 
 	if !caughtPokemon.isCaught {
-		return errors.New("You haven't caught this pokemon yet! Try now!")
+		return errors.New("You almost caught this pokemon! Try again so you can inspect it!")
+	} else {
+		cPokemon := caughtPokemon.data
+		fmt.Println("Here is the Data:")
+		fmt.Printf("Name: %v\n", cPokemon.Name)
+		fmt.Printf("Height: %v\n", cPokemon.Height)
+		fmt.Printf("Weight: %v\n", cPokemon.Weight)
+		fmt.Printf("Stats:\n")
+		for _, stat := range cPokemon.Stats {
+			fmt.Printf(" -%v: %v\n", stat.Stat.Name, stat.BaseStat)
+		}
+		fmt.Printf("Types:\n")
+		for _, ptype := range cPokemon.Types {
+			fmt.Printf(" -%v\n", ptype.Type.Name)
+		}
 	}
+	return nil
+}
+
+func pokedex(cfg *config, s []string) error {
+	if len(s) > 1 {
+		return unknown
+	}
+
+	if len(cfg.pokemon) <= 0 {
+		return errors.New("There are no pokemon you have caught!")
+	}
+	fmt.Println("Your Pokedex:")
+	for _, pokemon := range cfg.pokemon {
+		fmt.Printf(" - %v\n", pokemon.name)
+	}
+	return nil
 }

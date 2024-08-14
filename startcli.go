@@ -34,15 +34,8 @@ func startcli(cfg *config) {
 			fmt.Println("Command Not Found, Use 'help' For Command List")
 			continue
 		}
-		switch command.name {
-		case "explore":
-			if err := command.callback(cfg, slicedInput); err != nil {
-				fmt.Printf("Error when executing command: '%v' Error: %v \n", input, err)
-			}
-		default:
-			if err := command.callback(cfg, slicedInput); err != nil {
-				fmt.Printf("Error when executing command: '%v' Error: %v \n", input, err)
-			}
+		if err := command.callback(cfg, slicedInput); err != nil {
+			fmt.Printf("Error when executing command: '%v' Error: %v \n", input, err)
 		}
 	}
 }
